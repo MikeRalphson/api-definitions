@@ -1,0 +1,152 @@
+swagger: '2.0'
+info:
+  title: GoCrucial API
+  description: Move your app forward with the GoCrucial API
+  version: "1.0.0"
+# the domain of the service
+host: api.gocrucial.com
+# array of all schemes that your API supports
+schemes:
+  - https
+# will be prefixed to all paths
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /installation:
+    post:
+      summary: Add new Installation
+      description: Creates a new pet in the store.  Duplicates are allowed
+      tags:
+        - Installation
+      parameters:
+        - name: installation
+          in: body
+          description: New installation to be created
+          required: true
+          schema:
+            $ref: '#/definitions/newInstallation'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/installation'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+              
+  /installation/{id}:
+    get:
+      summary: Installations
+      description: The Installations endpoint returns information a specific
+        installation.
+      tags:
+        - Installation
+      parameters:
+        - name: id
+          in: path
+          description: The installation ID of the installation
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/installation'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /userIds/{installationId}:
+    get:
+      summary: User Ids
+      description: |
+        The userIds endpoint returns all the user ids linked to certain 
+        installation.
+      parameters:
+        - name: installationId
+          in: path
+          description: The installation ID of the installation
+          required: true
+          type: string
+      tags:
+        - UserId
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/UserId'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  installation:
+    type: object
+    properties:
+      installation_id:
+        type: string
+        description: Unique identifier representing a specific installation.
+      app_id:
+        type: string
+        description: Unique identifier representing a specific app.
+      device_brandname:
+        type: string
+        description: Device manufacturer.
+      device_model:
+        type: string
+        description: Device model.
+      executive_context:
+        type: string
+        description: Operating system or framework.
+      executive_context_version:
+        type: string
+        description: Operating system/framework version.
+      when_last_seen:
+        type: string
+        description: Last time the app was used in this installation.
+      where_last_seen:
+        type: string
+        description: Last location we got from the installation.
+  newInstallation:
+    type: object
+    properties:
+      app_id:
+        type: string
+        description: Unique identifier representing a specific app.
+      device_brandname:
+        type: string
+        description: Device manufacturer.
+      device_model:
+        type: string
+        description: Device model.
+      executive_context:
+        type: string
+        description: Operating system or framework.
+      executive_context_version:
+        type: string
+        description: Operating system/framework version.
+      when_last_seen:
+        type: string
+        description: Last time the app was used in this installation.
+      where_last_seen:
+        type: string
+        description: Last location we got from the installation.
+  UserId:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Unique identifier representing a specific installation.
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
