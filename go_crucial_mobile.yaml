@@ -16,7 +16,7 @@ paths:
   /installation:
     post:
       summary: Add new Installation
-      description: Creates a new pet in the store.  Duplicates are allowed
+      description: Creates a new installation.  Duplicates are allowed
       tags:
         - Installation
       parameters:
